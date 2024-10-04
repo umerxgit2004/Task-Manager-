@@ -7,10 +7,12 @@ interface Task {
   title : string;
   description : string;
   date:string;
-  status : 'Completed' | 'Incomplete'
+  status : 'Completed' | 'Incomplete';
+
 }
 
 const TaskList = () => {
+
   const [tasks,setTasks] =useState<Task[]>([
     { 
       id:0,
@@ -42,6 +44,17 @@ const TaskList = () => {
     },
   ])
 
+   // Function to update a specific task
+   const updateTask = (id: number, updatedTitle: string, updatedDescription: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id
+          ? { ...task, title: updatedTitle, description: updatedDescription }
+          : task
+      )
+    );
+  };
+
   //function to add new tasks
 
   const addNewTasks = () =>{
@@ -55,13 +68,21 @@ const TaskList = () => {
     setTasks((prevTasks)=>[...prevTasks,newTask])
   }
 
-
+ 
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {tasks.map((task, index) => (
-        <TaskCard key={index} {...task}
-       
+        <TaskCard key={task.id}
+        title={task.title}
+        description={task.description}
+        date={task.date}
+        status={task.status}
+       // Pass update function as a prop to TaskCard
+       onUpdate={(updatedTitle, updatedDescription) =>
+        updateTask(task.id, updatedTitle, updatedDescription)
+      }
+
         />
       ))}
       <div 

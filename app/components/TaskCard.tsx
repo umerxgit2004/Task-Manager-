@@ -8,10 +8,12 @@ interface TaskCardProps{
     description: string;
     date: string | Date;
     status: "Completed" | "Incomplete";
+    onUpdate: (updatedTitle: string, updatedDescription: string) => void;
+
 }
 
 
-const TaskCard : FC<TaskCardProps> = ({title,description,date,status}) =>{
+const TaskCard : FC<TaskCardProps> = ({title,description,date,status,onUpdate}) =>{
     const [isExpanded,setIsExpanded] = useState(false)
     const [LocalTitle, setLocalTitle] = useState(title)
     const [localDescription, setLocalDescription] = useState(description);
@@ -32,6 +34,17 @@ const TaskCard : FC<TaskCardProps> = ({title,description,date,status}) =>{
   const stopPropagation = (e:React.MouseEvent<HTMLInputElement| HTMLTextAreaElement>) =>{
     e.stopPropagation()
   }
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalTitle(e.target.value);
+    onUpdate(e.target.value, localDescription); // Update as user types
+  };
+
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLocalDescription(e.target.value);
+    onUpdate(e.target.value, LocalTitle); // Update as user types
+  };
+
       
     return (
         <div
@@ -41,17 +54,17 @@ const TaskCard : FC<TaskCardProps> = ({title,description,date,status}) =>{
                 {isExpanded?(
                     <div className="expandedView&editing flex flex-col">
                         <input 
-                        className="font-bold text-lg mb-2 p-2"
+                        className="font-bold text-lg mb-2 p-2 text-gray-800"
                         value={LocalTitle}
                         onClick={stopPropagation}
-                        onChange={(e) => setLocalTitle(e.target.value)} 
+                        onChange={handleTitleChange}
                         />
                    
                         <textarea
                              className="text-gray-700 mb-4 p-2"
                              value={localDescription}
                              onClick={stopPropagation}
-                             onChange={(e)=>setLocalDescription(e.target.value)}
+                             onChange={handleDescriptionChange}
                              />
                           <div className="flex justify-between items-center">
                                 <span className="text-sm text-gray-500">{String(date)}</span>
