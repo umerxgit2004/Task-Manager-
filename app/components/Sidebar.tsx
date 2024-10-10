@@ -19,6 +19,10 @@ const Sidebar : FC = () =>{
 
     ]
 
+    const handleNavigation = (path: string) => {
+        router.push(path); // Navigates to the selected path
+    };
+    
     return(
         <div className="hidden md:block h-screen bg-gray-800 text-white max-w-[230px] sticky top-0">
             <div className="text-center mb-10">
@@ -37,7 +41,10 @@ const Sidebar : FC = () =>{
                     {menuItems.map((item)=>(
                         <li
                         key={item.name}
-                        className={`text-center p-4 rounded mb-2 cursor-pointer ${router.pathname === item.path?'bg-gray-600' :''}`}>
+                        className={`text-center p-4 rounded mb-2 cursor-pointer ${router.pathname === item.path?'bg-gray-600' :''}`}
+                        onClick={() => handleNavigation(item.path)} // Navigate on click
+
+                        >
                           {item.name}  
                         </li>
                     ))}
