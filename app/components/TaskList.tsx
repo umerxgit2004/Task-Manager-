@@ -55,6 +55,11 @@ const TaskList = () => {
     );
   };
 
+  //new state managemenet function1
+  const handleInputChange = (id:number, field:'title'| 'description', value:string) =>{
+    setTasks(prevTasks => prevTasks.map(task => task.id === id ? {...task,[field]:value}:task))
+  }
+
   //function to add new tasks
 
   const addNewTasks = () =>{
@@ -70,29 +75,52 @@ const TaskList = () => {
 
  
 
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {tasks.map((task, index) => (
-        <TaskCard key={task.id}
-        title={task.title}
-        description={task.description}
-        date={task.date}
-        status={task.status}
-       // Pass update function as a prop to TaskCard
-       onUpdate={(updatedTitle, updatedDescription) =>
-        updateTask(task.id, updatedTitle, updatedDescription)
-      }
+  // return (
+  //   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  //     {tasks.map((task, index) => (
+  //       <TaskCard key={task.id}
+  //       title={task.title}
+  //       description={task.description}
+  //       date={task.date}
+  //       status={task.status}
+  //      // Pass update function as a prop to TaskCard
+  //      onUpdate={(updatedTitle, updatedDescription) =>
+  //       updateTask(task.id, updatedTitle, updatedDescription)
+  //     }
 
-        />
+  //       />
+  //     ))}
+  //     <div 
+  //     onClick={addNewTasks}
+  //     className="p-4 border-2
+  //      border-dashed rounded-lg flexjustify-center items-center cursor-pointer">
+  //       Add New Task
+  //     </div>
+  //   </div>
+  // );
+
+
+  //1
+  return(
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {tasks.map(task => (
+           <TaskCard key={task.id}
+                 title={task.title}
+                 description={task.description}
+                 date={task.date}
+                 status={task.status}
+         onChange={e => handleInputChange(task.id, 'title', e.target.value)}
+       />
       ))}
-      <div 
+
+       <div 
       onClick={addNewTasks}
       className="p-4 border-2
        border-dashed rounded-lg flexjustify-center items-center cursor-pointer">
         Add New Task
       </div>
     </div>
-  );
+  )
 };
 
 export default TaskList;
