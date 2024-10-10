@@ -12,6 +12,10 @@ const SignIn = () => {
         router.push('/');
     };
 
+    const redirect = ()=>{
+        router.push('/');
+    }
+
     return (
         <div className="h-screen flex flex-col items-center justify-center bg-gray-800 text-white">
             <h1 className="text-3xl font-bold mb-6">Sign In</h1>
@@ -28,7 +32,7 @@ const SignIn = () => {
                     className="px-4 py-2 rounded bg-gray-700 text-white"
                     required
                 />
-                <button type="submit" className="bg-blue-500 px-6 py-2 rounded hover:bg-blue-600">
+                <button onClick={()=> redirect()} type="submit" className="bg-blue-500 px-6 py-2 rounded hover:bg-blue-600">
                     Sign In
                 </button>
             </form>
